@@ -1,4 +1,4 @@
-# dog
+# :dog: dog
 
 simple repository just to lear http request with flutter
 
