@@ -1,6 +1,8 @@
 import 'dart:collection';
 import 'dart:js';
 
+import 'package:dio/dio.dart';
+import 'package:dog/repository/dorg.repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -12,8 +14,18 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  static const imgUrl =
+  var imgUrl =
       "https://static.wikia.nocookie.net/punpun/images/5/52/Chapter121pg7.PNG";
+
+  final dogRepository = DogRepository(dio: Dio());
+
+  void changeUrl() {
+    dogRepository.getRandomDog().then((value) {
+      setState(() {
+        imgUrl = value.message;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +40,15 @@ class _HomeState extends State<Home> {
                 imgUrl,
                 height: MediaQuery.of(context).size.width,
                 width: MediaQuery.of(context).size.width,
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
               ),
               TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    changeUrl();
+                  },
                   child: Text(
                     "refresh",
+                    style: Theme.of(context).textTheme.button,
                   ))
             ],
           ),
